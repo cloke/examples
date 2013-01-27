@@ -31,7 +31,7 @@ body, html {
   background-color: #F2F4F5;
 }
 
-.sc-view {
+.ember-view {
   position: relative;
   overflow: visible;
 }
@@ -74,7 +74,7 @@ body {
       float: left;
     }
 
-    .sc-button {
+    button {
       @include background-image(linear-gradient(#F9F9F9 1%, #DDD, #F2F2F2, #F7F7F7));
       border: 1px solid #828282;
       color: #000;

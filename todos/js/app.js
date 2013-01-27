@@ -1,11 +1,15 @@
 Todos = Ember.Application.create();
 
+Todos.Router.map(function() {
+  this.route("todos", { path: "/" });
+});
+
 Todos.Todo = Em.Object.extend({
   title: null,
   isDone: false
 });
 
-Todos.todosController = Em.ArrayProxy.create({
+Todos.TodosController = Em.ArrayProxy.extend({
   content: [],
 
   createTodo: function(title) {
@@ -33,8 +37,7 @@ Todos.todosController = Em.ArrayProxy.create({
 });
 
 Todos.StatsView = Em.View.extend({
-  remainingBinding: 'Todos.todosController.remaining',
-
+  remainingBinding: 'controller.remaining',
   remainingString: function() {
     var remaining = this.get('remaining');
     return remaining + (remaining === 1 ? " item" : " items");
@@ -46,7 +49,7 @@ Todos.CreateTodoView = Em.TextField.extend({
     var value = this.get('value');
 
     if (value) {
-      Todos.todosController.createTodo(value);
+      this.get('controller').createTodo(value);
       this.set('value', '');
     }
   }
