@@ -3,75 +3,60 @@
   <head>
     <title>Ember.js Contacts</title>
     <link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../lib/ember.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="../lib/handlebars.js"></script>
+    <script type="text/javascript" src="../lib/ember.js"></script>
     <script type="text/javascript" src="app.js"></script>
   </head>
   <body>
-      <div id="container">
-      <div id="contact-list">
-        <script type="text/x-handlebars">
-          <h2>My Contacts</h2>
-          <ul>
-            {{#each App.contactsController}}
-              {{#view App.ContactListView contentBinding="this"}}
-                {{#with content}}
-                  <li>
-                  {{#if hasName}}
-                    {{#if lastName}}
-                      {{firstName}} <b>{{lastName}}</b>
-                    {{else}}
-                      <b>{{firstName}}</b>
-                    {{/if}}
+    <div id="container">
+      <script type="text/x-handlebars" data-template-name="contacts">
+        <h2>My Contacts</h2>
+        <ul>
+          {{#each contact in content}}
+            {{#view App.ContactListView contentBinding="contact"}}
+              {{#with view.content}}
+                {{#if hasName}}
+                  {{#if lastName}}
+                    {{firstName}} <b>{{lastName}}</b>
                   {{else}}
-                    <span class="no-name">no name</span>
+                    <b>{{firstName}}</b>
                   {{/if}}
-                {{/with}}
-              {{/view}}
-            {{/each}}
-          </ul>
-        {{#button action="newContact"}}New Contact{{/button}}
-        </script>
-      </div>
-
-      <div id="detail">
-        <script type="text/x-handlebars">
-          {{#if App.selectedContactController.content}}
-            {{#view App.CardView}}
-              <div class="name">
-                {{editable "content.firstName"}} {{editable "content.lastName"}}
-              </div>
-
-              <table class="phone-numbers">
-                {{#each content.phoneNumbers}}
-                  <tr>
-                    <td>{{editable number}}</td>
-                    <td>{{view App.DeleteNumberView contentBinding="this"}}</td>
-                  </tr>
-                {{/each}}
-              </table>
-              {{#view Ember.Button target="contentView" action="addPhoneNumber"}}
-                Add Phone Number
-              {{/view}}
+                {{else}}
+                  <span class="no-name">no name</span>
+                {{/if}}
+              {{/with}}
             {{/view}}
-          {{else}}
-            <div class="no-contact-selected">No contact selected.</div>
-          {{/if}}
+          {{/each}}
+        </ul>
+        <button {{action "newContact"}}>New Contact</button>
+      </script>
 
-        </script>
-    </div>
+      <script type="text/x-handlebars" data-template-name="contact">ssss
+        {{controller}}
+        {{#if content}}
+          {{#view App.CardView}}
+            <div class="name">
+              {{view App.EditField valueBinding="firstName" disabled="true"}} {{view App.EditField valueBinding="lastName"}}
+            </div>
 
-    <script type="text/x-handlebars" data-template-name="edit-field">
-      {{#if isEditing}}
-        {{view App.TextField valueBinding="value" propagatesEvents=true}}
-      {{else}}
-        {{#if value}}
-          {{value}}
+            <table class="phone-numbers">
+              {{#each content.phoneNumbers}}
+                <tr>
+                  <td>{{view App.EditField valueBinding="number"}}</td>
+                  <td>{{view App.DeleteNumberView contentBinding="this"}}</td>
+                </tr>
+              {{/each}}
+            </table>
+            {{#view Ember.Button target="contentView" action="addPhoneNumber"}}
+              Add Phone Number
+            {{/view}}
+          {{/view}}
         {{else}}
-          <span class="no-name">empty</span>
+          <div class="no-contact-selected">No contact selected.</div>
         {{/if}}
-      {{/if}}
-    </script>
+      </script>
+    </div>
   </body>
 </html>
 

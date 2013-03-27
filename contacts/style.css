@@ -22,7 +22,7 @@ body {
   border-radius: 12px;
 }
 
-#contact-list {
+.contact-list {
   position: absolute;
   top: 0;
   left: 0;
@@ -31,7 +31,7 @@ body {
   box-shadow: rgba(0,0,0,0.8) 0 0 5px;
 }
 
-#contact-list h2 {
+.contact-list h2 {
   font-family: "HelveticaNeue-UltraLight", Helvetica, Arial;
   font-weight: 100;
   text-align: center;
@@ -43,13 +43,13 @@ body {
   margin: 0;
 }
 
-#contact-list button {
+.contact-list button {
   position: absolute;
   bottom: 5px;
   left: 13px;
 }
 
-#contact-list ul {
+.contact-list ul {
   position: absolute;
   top: 45px;
   right: 13px;
@@ -63,17 +63,17 @@ body {
   list-style-type: none;
 }
 
-#contact-list ul li {
+.contact-list ul li {
   padding: 3px;
   cursor: default;
 }
 
-#contact-list .is-selected {
+.contact-list .is-selected {
   background-color: #ecf3ff;
   color: #274bf1;
 }
 
-#contact-list .is-selected .no-name {
+.contact-list .is-selected .no-name {
   color: #274bf1;
 }
 
@@ -82,7 +82,7 @@ body {
   font-style: italic;
 }
 
-#detail {
+.detail {
   position: absolute;
   width: 600px;
   top: 0;
@@ -91,7 +91,7 @@ body {
   text-shadow: #fff 0 -1px 0;
 }
 
-#detail .card {
+.detail .card {
   position: absolute;
   background-color: rgba(255,255,255,0.4);
   padding: 7px;
@@ -102,27 +102,27 @@ body {
   overflow: auto;
 }
 
-#detail .card .name,
-#detail .card .name input {
+.detail .card .name,
+.detail .card .name input {
   font-size: 32px;
   font-weight: bold;
 }
 
-#detail .card table {
+.detail .card table {
   margin-top: 35px;
 }
 
-#detail .card button {
+.detail .card button {
   margin-top: 13px;
 }
 
-#detail .delete-number-view {
+.detail .delete-number-view {
   width: 16px;
   height: 16px;
   background-image: url(images/delete.png);
 }
 
-#detail .no-contact-selected {
+.detail .no-contact-selected {
   position: absolute;
   top: 50%;
   margin-top: -10px;

@@ -1,10 +1,42 @@
-App = Ember.Application.create();
+App = Ember.Application.create({
+  LOG_TRANSITIONS: true
+});
 
-/*
+/* Router */
 
-  Model
+App.Router.map(function() {
+  this.resource('contacts', { path: '/contacts' }, function() {
+    this.route('new');
+    this.resource('contact', { path: '/:contact_id' } );
 
-*/
+  });
+
+});
+
+App.IndexRoute = Ember.Route.extend({
+  redirect: function() {
+    this.transitionTo('contacts');
+  }
+});
+
+App.ContactsRoute = Ember.Route.extend({
+  setupController: function(controller) {
+    controller.loadContacts();
+  }
+});
+
+App.ContactRoute = Ember.Route.extend({
+    model: function(params){
+    },
+    setupController: function(controller, model){
+      controller.set('content', model);
+    },
+    serialize: function(){
+      return {contact_id: 1}
+    }
+  })
+
+/* Model */
 
 var names = ["Adam", "Bert", "Charlie", "Dave", "Ernie", "Frances",
   "Gary", "Isabelle", "John", "Kyle", "Lyla", "Matt", "Nancy", "Ophelia",
@@ -12,6 +44,7 @@ var names = ["Adam", "Bert", "Charlie", "Dave", "Ernie", "Frances",
   "Xander", "Yehuda", "Zora"];
 
 App.Contact = Ember.Object.extend({
+  id: '',
   firstName: '',
   lastName: '',
 
@@ -31,16 +64,11 @@ App.Contact = Ember.Object.extend({
   }.property('firstName', 'lastName')
 });
 
-/*
+/* Controllers */
 
-  Controllers
-
-*/
-
-App.contactsController = Ember.ArrayController.create({
+App.ContactsController = Ember.ArrayController.extend({
   // The array of Contact objects that backs the array controller.
   content: [],
-
   // Adds a new contact to the list and ensures it is
   // sorted correctly.
   add: function(contact) {
@@ -139,11 +167,15 @@ App.contactsController = Ember.ArrayController.create({
   }
 });
 
+/*
 App.contactsController.loadContacts();
 
 App.selectedContactController = Ember.Object.create({
   content: null
 });
+*/
+
+App.ContactsView = Ember.View;
 
 App.DeleteNumberView = Ember.View.extend({
   classNames: ['delete-number-view'],
@@ -154,17 +186,16 @@ App.DeleteNumberView = Ember.View.extend({
     contact.get('phoneNumbers').removeObject(phoneNumber);
   },
 
-  touchEnd: function() {
-    this.click();
-  }
+  // touchEnd: function() {
+  //   this.click();
+  // }
 });
 
-App.EditField = Ember.View.extend({
-  tagName: 'span',
+App.EditField = Ember.TextField.extend({
   templateName: 'edit-field',
-
+  disabled: true,
   doubleClick: function() {
-    this.set('isEditing', true);
+    this.set('disabled', false);
     return false;
   },
 
@@ -183,6 +214,7 @@ App.EditField = Ember.View.extend({
   },
 
   focusOut: function() {
+    console.log(111);
     this.set('isEditing', false);
   },
 
@@ -199,27 +231,16 @@ App.TextField = Ember.TextField.extend({
   }
 });
 
-Ember.Handlebars.registerHelper('editable', function(path, options) {
-  options.hash.valueBinding = path;
-  return Ember.Handlebars.helpers.view.call(this, App.EditField, options);
-});
-
-Ember.Handlebars.registerHelper('button', function(options) {
-  var hash = options.hash;
-
-  if (!hash.target) {
-    hash.target = "App.contactsController";
-  }
-  return Ember.Handlebars.helpers.view.call(this, Ember.Button, options);
-});
-
 App.ContactListView = Ember.View.extend({
   classNameBindings: ['isSelected'],
-
+  tagName: 'li',
+  init: function(){
+    window.a = this;
+    this._super();
+  },
   click: function() {
     var content = this.get('content');
-
-    App.selectedContactController.set('content', content);
+    this.get('controller.target.router').transitionTo('contact', content);
   },
 
   touchEnd: function() {
@@ -227,6 +248,7 @@ App.ContactListView = Ember.View.extend({
   },
 
   isSelected: function() {
+    return
     var selectedItem = App.selectedContactController.get('content'),
         content = this.get('content');
 
@@ -235,12 +257,18 @@ App.ContactListView = Ember.View.extend({
 });
 
 App.CardView = Ember.View.extend({
-  contentBinding: 'App.selectedContactController.content',
   classNames: ['card'],
 
   addPhoneNumber: function() {
-    var phoneNumbers = this.getPath('content.phoneNumbers');
+    var phoneNumbers = this.get('content.phoneNumbers');
     phoneNumbers.pushObject({ number: '' });
   }
 });
 
+App.ContactsView = Ember.View.extend({
+  classNames: 'contact-list'
+});
+
+App.ContactView = Ember.View.extend({
+  classNames: 'detail'
+});

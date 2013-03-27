@@ -8,53 +8,53 @@ var app = express.createServer(
   connect.static('..')
 );
 
-var guid = 0;
+var id = 0;
 
 var contacts = [
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Peter',
     lastName: 'Wagenet',
     phoneNumbers: ['(415) 555-2380']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Yehuda',
     lastName: 'Katz',
     phoneNumbers: ['(415) 555-6666']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Erik',
     lastName: 'Bryn',
     phoneNumbers: ['(415) 555-2380', '(614) 555-8127']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'James',
     lastName: 'Rosen',
     phoneNumbers: ['(415) 555-2380']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Kara',
     lastName: 'Gates',
     phoneNumbers: ['(207) 555-3141']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Dudley',
     lastName: 'Flanders',
     phoneNumbers: ['(415) 555-6789']
   },
 
   {
-    guid: ++guid,
+    id: ++id,
     firstName: 'Tom',
     lastName: 'Dale',
     phoneNumbers: ['(808) 800-8135']
